@@ -168,7 +168,7 @@ mysqlHandler() {
     sudo kill -9 `ps -ef | grep "mysql" | grep -v grep | awk '{print $2}'`
     brew install mysql
     if [ $MYSQL_AT_START -eq 1 ]; then
-        ln -sfv /usr/local/opt/mysql/*.plist ~/Library/LaunchAgents
+        ln -sfv $HOMEBREW_BASEPATH/opt/mysql/*.plist ~/Library/LaunchAgents
         launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist
     fi
 }
@@ -182,7 +182,7 @@ mongodbHandler() {
     sudo kill -9 `ps -ef | grep "mongo" | grep -v grep | awk '{print $2}'`
     brew install mongodb
     if [ $MONGODB_AT_START -eq 1 ]; then
-        ln -sfv /usr/local/opt/mongodb/*.plist ~/Library/LaunchAgents
+        ln -sfv $HOMEBREW_BASEPATH/opt/mongodb/*.plist ~/Library/LaunchAgents
         launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mongodb.plist
     fi
 }
@@ -191,7 +191,7 @@ redisHandler() {
     sudo kill -9 `ps -ef | grep "redis" | grep -v grep | awk '{print $2}'`
     brew install redis
     if [ $REDIS_AT_START -eq 1 ]; then
-        ln -sfv /usr/local/opt/redis/*.plist ~/Library/LaunchAgents
+        ln -sfv $HOMEBREW_BASEPATH/opt/redis/*.plist ~/Library/LaunchAgents
         launchctl load ~/Library/LaunchAgents/homebrew.mxcl.redis.plist
     fi
 }
@@ -207,6 +207,8 @@ phpHandler() {
     [ $MYSQL -eq 1 ] && PHP_INSTALL_ARGS="$PHP_INSTALL_ARGS --with-mysql"
     [ $POSTGRESQL -eq 1 ] && PHP_INSTALL_ARGS="$PHP_INSTALL_ARGS --with-pgsql"
 
+    brew unlink php$PHP_DEFAULT_VERSION
+
     for VERSION in $PHP_VERSIONS_TO_INSTALL
     do
         VERSION=`echo $VERSION | sed -e 's/\.//g'`
@@ -216,6 +218,8 @@ phpHandler() {
         MODULES=$PHP_MODULES_TO_INSTALL
         [ "$VERSION" == "55" ] && MODULES=`echo $MODULES | sed -e 's/apc//g'`
         for MODULE in $MODULES; do brew install php$VERSION-$MODULE; done
+
+        brew unlink php$VERSION
 
         if ! grep -q -m 1 \
             "josegonzalez/php/php$VERSION" $DEV_PROFILE_FILEPATH; then
@@ -228,12 +232,14 @@ phpHandler() {
                 fi
         fi
     done
+
+    brew link php$PHP_DEFAULT_VERSION
 }
 
 phpConfigHandler() {
-    for PHP_VERSION in `ls /usr/local/etc/php`
+    for PHP_VERSION in `ls $HOMEBREW_BASEPATH/etc/php`
     do
-        PHPINI_PATH="/usr/local/etc/php/$PHP_VERSION/php.ini"
+        PHPINI_PATH="$HOMEBREW_BASEPATH/etc/php/$PHP_VERSION/php.ini"
         sed -i "" -e "s/^;\(date\.timezone\) =\s*$/\1 = $PHP_DATE_TIMEZONE/g" \
             $PHPINI_PATH
         sed -i "" -e "s/^\(memory_limit\) = .*$/\1 = $PHP_MEMORY_LIMIT/g" \
@@ -254,7 +260,7 @@ phpConfigHandler() {
 }
 
 phpApacheConfigHandler() {
-    for PHP_LIB in `find "/usr/local/Cellar" -name "libphp5.so"`
+    for PHP_LIB in `find "$HOMEBREW_BASEPATH/Cellar" -name "libphp5.so"`
     do
         PHP_LIB_VERSION=`echo $PHP_LIB | awk 'BEGIN{FS="/"} {print $6}' \
             | awk 'BEGIN{FS="."} {print $1"."$2}'`
@@ -287,7 +293,7 @@ elasticSearchHandler() {
     sudo kill -9 `ps -ef | grep "elastic" | grep -v grep | awk '{print $2}'`
     brew install elasticsearch
     if [ $ELASTICSEARCH_AT_START -eq 1 ]; then
-        ln -sfv /usr/local/opt/elasticsearch/*.plist ~/Library/LaunchAgents
+        ln -sfv $HOMEBREW_BASEPATH/opt/elasticsearch/*.plist ~/Library/LaunchAgents
         launchctl load ~/Library/LaunchAgents/homebrew.mxcl.elasticsearch.plist
     fi
 }
@@ -296,7 +302,7 @@ rabbitmqHandler() {
     sudo kill -9 `ps -ef | grep "rabbitmq" | grep -v grep | awk '{print $2}'`
     brew install rabbitmq
     if [ $RABBITMQ_AT_START -eq 1 ]; then
-        ln -sfv /usr/local/opt/rabbitmq/*.plist ~/Library/LaunchAgents
+        ln -sfv $HOMEBREW_BASEPATH/opt/rabbitmq/*.plist ~/Library/LaunchAgents
         launchctl load ~/Library/LaunchAgents/homebrew.mxcl.rabbitmq.plist
     fi
 }
@@ -344,6 +350,8 @@ homebrewFinalization() {
 }
 
 ### PROCESS ##################################################################################
+
+HOMEBREW_BASEPATH=$(brew --prefix)
 
 homebrewPreparation
 
