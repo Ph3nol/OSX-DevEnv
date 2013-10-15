@@ -10,7 +10,6 @@ GIT=1
     GIT_AUTHOR_EMAIL="cedric@dugat.me"
 
 APACHE_CONFIG=1 # No installation with Brew, just configuration (parameters and vhosts)
-    APACHE_CONF_FILEPATH="/private/etc/apache2/httpd.conf"
 PHP=1
     PHP_VERSIONS_TO_INSTALL="5.4 5.5"
     PHP_DEFAULT_VERSION="5.4"
@@ -99,7 +98,7 @@ homebrewPreparation() {
 environmentPreparation() {
     DEV_PROFILE_FILEPATH=~/.profile.dev
     [ -f $DEV_PROFILE_FILEPATH ] || touch $DEV_PROFILE_FILEPATH
-    brew install grep wget autoconf icu4c
+    brew install grep wget git autoconf icu4c
 }
 
 cliPackagesHandler() {
@@ -110,7 +109,6 @@ cliPackagesHandler() {
 }
 
 gitHandler() {
-    brew install git
     git config --global user.name "$GIT_AUTHOR_NAME"
     git config --global user.email $GIT_AUTHOR_EMAIL
 }
@@ -355,6 +353,8 @@ homebrewFinalization() {
 ### PROCESS ##################################################################################
 
 HOMEBREW_BASEPATH=$(brew --prefix)
+APACHE_CONF_FILEPATH=`apachectl -V | grep SERVER_CONFIG_FILE \
+    | awk 'BEGIN{FS="="} {print $2}' | sed 's/"//g'`
 
 homebrewPreparation
 
