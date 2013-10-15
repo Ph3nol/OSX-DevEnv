@@ -356,6 +356,24 @@ osxPackagesHandler() {
 
 homebrewFinalization() {
     brew cleanup
+
+    case $(echo $SHELL) in
+      "/bin/zsh")
+        SHELL_CONFIG_FILE=~/.zshrc
+        ;;
+      "/bin/bash")
+        SHELL_CONFIG_FILE=~/.bashrc
+        ;;
+      *)
+        SHELL_CONFIG_FILE=~/.bashrc
+        ;;
+    esac
+
+    if ! grep -q -m 1 "source $OSX_DEV_PROFILE_PATH" $SHELL_CONFIG_FILE; then
+            echo -e "\nsource $OSX_DEV_PROFILE_PATH" >> $SHELL_CONFIG_FILE
+    fi
+
+    source $SHELL_CONFIG_FILE
 }
 
 ### PROCESS ##################################################################################
