@@ -1,0 +1,46 @@
+APACHE_CONF_FILEPATH=`apachectl -V | grep SERVER_CONFIG_FILE \
+    | awk 'BEGIN{FS="="} {print $2}' | sed 's/"//g'`
+
+swphp() {
+    VERSION=`echo $1 | sed -e 's/\.//g'`
+
+    PHP_LIB=$(find "$(brew --prefix)/Cellar" -name "libphp5.so" | grep $VERSION)
+
+    if [ $PHP_LIB ]; then
+        ACTUAL_VERSION=`php -v | head -1 | awk '{ print $2}' | awk 'BEGIN{FS="."} {print $1"."$2}'`
+
+        echo -e "\033[33m♨\033[33m Switching from $ACTUAL_VERSION to $1...\033[0m"
+
+        echo "  Preparation..."
+        shellReloading
+        ACTUAL_VERSION=`echo $ACTUAL_VERSION | sed -e 's/\.//g'`
+        BREW_LINK_CMD=$(brew unlink php$ACTUAL_VERSION 2>&1)
+
+        echo "  Setting PHP for CLI..."
+        export PATH=$(brew --prefix josegonzalez/php/php$VERSION)/bin:$PATH
+        BREW_LINK_CMD=$(brew link php$VERSION 2>&1)
+
+        echo "  Setting PHP for Apache..."
+        sudo sed -i "" -e "/^LoadModule php5_module/s/LoadModule/# LoadModule/" \
+            $APACHE_CONF_FILEPATH
+        sudo sed -i "" -e "s/^# \(LoadModule php5_module \)\(.*\)$VERSION\(.*\)$/\1\2$VERSION\3/g" \
+            $APACHE_CONF_FILEPATH
+        sudo apachectl restart
+
+        echo -e "\033[32m✔ Ready to go!\033[0m"
+    else
+        echo -e "\033[31m✘ No $1 version has been found..\033[0m"
+    fi
+}
+
+
+shellReloading() {
+case $(echo $SHELL) in
+  "/bin/zsh")
+    source ~/.zshrc
+    ;;
+  "/bin/bash")
+    source ~/.bashrc
+    ;;
+esac
+}
