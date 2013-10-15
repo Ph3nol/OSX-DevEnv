@@ -217,7 +217,10 @@ phpHandler() {
 
         MODULES=$PHP_MODULES_TO_INSTALL
         [ "$VERSION" == "55" ] && MODULES=`echo $MODULES | sed -e 's/apc//g'`
-        for MODULE in $MODULES; do brew install php$VERSION-$MODULE; done
+        for MODULE in $MODULES
+        do
+            brew install php$VERSION-$MODULE
+        done
 
         brew unlink php$VERSION
 
