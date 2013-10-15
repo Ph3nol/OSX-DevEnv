@@ -96,9 +96,17 @@ homebrewPreparation() {
 }
 
 environmentPreparation() {
-    DEV_PROFILE_FILEPATH=~/.profile.dev
-    [ -f $DEV_PROFILE_FILEPATH ] || touch $DEV_PROFILE_FILEPATH
     brew install grep wget git autoconf icu4c
+
+    OSX_DEV_PATH=~/.osx-dev
+    OSX_DEV_PROFILE_PATH=$OSX_DEV_PATH/.profile
+
+    if [ -d $OSX_DEV_PATH ];
+    then
+        rm -rf $OSX_DEV_PATH
+    fi
+
+    git clone $SCRIPT_GIT_REPOSITORY $OSX_DEV_PATH
 }
 
 cliPackagesHandler() {
@@ -223,13 +231,13 @@ phpHandler() {
         brew unlink php$VERSION
 
         if ! grep -q -m 1 \
-            "josegonzalez/php/php$VERSION" $DEV_PROFILE_FILEPATH; then
+            "josegonzalez/php/php$VERSION" $OSX_DEV_PROFILE_PATH; then
                 if [ "$VERSION" == "$PHP_DEFAULT_VERSION" ]; then
                     echo "export PATH=\"$(brew --prefix josegonzalez/php/php$VERSION)/bin:\$PATH\"" \
-                        >> $DEV_PROFILE_FILEPATH
+                        >> $OSX_DEV_PROFILE_PATH
                 else
                     echo "# export PATH=\"$(brew --prefix josegonzalez/php/php$VERSION)/bin:\$PATH\"" \
-                        >> $DEV_PROFILE_FILEPATH
+                        >> $OSX_DEV_PROFILE_PATH
                 fi
         fi
     done
@@ -352,6 +360,7 @@ homebrewFinalization() {
 
 ### PROCESS ##################################################################################
 
+SCRIPT_GIT_REPOSITORY="https://github.com/Ph3nol/OSX-DevEnv.git"
 HOMEBREW_BASEPATH=$(brew --prefix)
 APACHE_CONF_FILEPATH=`apachectl -V | grep SERVER_CONFIG_FILE \
     | awk 'BEGIN{FS="="} {print $2}' | sed 's/"//g'`
