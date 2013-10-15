@@ -122,6 +122,7 @@ zshHandler() {
 }
 
 apacheConfigHandler() {
+    sudo kill -9 `ps -ef | grep "httpd\|apache" | grep -v grep | awk '{print $2}'`
     APACHE_USER=`whoami`
 
     [ -d ~/Sites/apache ] || mkdir ~/Sites/apache
@@ -164,6 +165,7 @@ apacheConfigHandler() {
 }
 
 mysqlHandler() {
+    sudo kill -9 `ps -ef | grep "mysql" | grep -v grep | awk '{print $2}'`
     brew install mysql
     if [ $MYSQL_AT_START -eq 1 ]; then
         ln -sfv /usr/local/opt/mysql/*.plist ~/Library/LaunchAgents
@@ -172,10 +174,12 @@ mysqlHandler() {
 }
 
 postgreSqlHandler() {
+    sudo kill -9 `ps -ef | grep "postgre" | grep -v grep | awk '{print $2}'`
     brew install postgresql --without-ossp-uuid
 }
 
 mongodbHandler() {
+    sudo kill -9 `ps -ef | grep "mongo" | grep -v grep | awk '{print $2}'`
     brew install mongodb
     if [ $MONGODB_AT_START -eq 1 ]; then
         ln -sfv /usr/local/opt/mongodb/*.plist ~/Library/LaunchAgents
@@ -184,6 +188,7 @@ mongodbHandler() {
 }
 
 redisHandler() {
+    sudo kill -9 `ps -ef | grep "redis" | grep -v grep | awk '{print $2}'`
     brew install redis
     if [ $REDIS_AT_START -eq 1 ]; then
         ln -sfv /usr/local/opt/redis/*.plist ~/Library/LaunchAgents
@@ -192,6 +197,7 @@ redisHandler() {
 }
 
 memcachedHandler() {
+    sudo kill -9 `ps -ef | grep "memcache" | grep -v grep | awk '{print $2}'`
     brew install memcached libmemcached
 }
 
@@ -272,6 +278,7 @@ phpComposerHandler() {
 }
 
 elasticSearchHandler() {
+    sudo kill -9 `ps -ef | grep "elastic" | grep -v grep | awk '{print $2}'`
     brew install elasticsearch
     if [ $ELASTICSEARCH_AT_START -eq 1 ]; then
         ln -sfv /usr/local/opt/elasticsearch/*.plist ~/Library/LaunchAgents
@@ -280,6 +287,7 @@ elasticSearchHandler() {
 }
 
 rabbitmqHandler() {
+    sudo kill -9 `ps -ef | grep "rabbitmq" | grep -v grep | awk '{print $2}'`
     brew install rabbitmq
     if [ $RABBITMQ_AT_START -eq 1 ]; then
         ln -sfv /usr/local/opt/rabbitmq/*.plist ~/Library/LaunchAgents
@@ -288,6 +296,7 @@ rabbitmqHandler() {
 }
 
 nodeNpmHandler() {
+    sudo kill -9 `ps -ef | grep "node\|npm" | grep -v grep | awk '{print $2}'`
     brew install node
 }
 
