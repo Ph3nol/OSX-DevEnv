@@ -81,8 +81,7 @@ homebrewPreparation() {
     READY_TO_BREW=$(brew doctor 2>&1)
 
     if [ "$READY_TO_BREW" != "Your system is ready to brew." ]; then
-        echo -e "\n\033[33m✘\033[31m Brew Doctor failed."
-        echo -e "  Run 'brew doctor', fix errors before relaunching this script.\033[0m\n"
+        echo -e "\n\033[31m✘ Brew Doctor failed. Fix 'brew doctor' errors first."
         exit 0
     fi
 
