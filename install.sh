@@ -203,6 +203,7 @@ memcachedHandler() {
 
 phpHandler() {
     PHP_INSTALL_ARGS=""
+    PHP_DEFAULT_VERSION=`echo $PHP_DEFAULT_VERSION | sed -e 's/\.//g'`
     [ $MYSQL -eq 1 ] && PHP_INSTALL_ARGS="$PHP_INSTALL_ARGS --with-mysql"
     [ $POSTGRESQL -eq 1 ] && PHP_INSTALL_ARGS="$PHP_INSTALL_ARGS --with-pgsql"
 
@@ -217,9 +218,14 @@ phpHandler() {
         for MODULE in $MODULES; do brew install php$VERSION-$MODULE; done
 
         if ! grep -q -m 1 \
-            "brew --prefix josegonzalez/php" $DEV_PROFILE_FILEPATH; then
-                echo "export PATH=\"$(brew --prefix josegonzalez/php/php$VERSION)/bin:\$PATH\"" \
-                    >> $DEV_PROFILE_FILEPATH
+            "josegonzalez/php/php$VERSION" $DEV_PROFILE_FILEPATH; then
+                if [ "$VERSION" == "$PHP_DEFAULT_VERSION" ]; then
+                    echo "export PATH=\"$(brew --prefix josegonzalez/php/php$VERSION)/bin:\$PATH\"" \
+                        >> $DEV_PROFILE_FILEPATH
+                else
+                    echo "# export PATH=\"$(brew --prefix josegonzalez/php/php$VERSION)/bin:\$PATH\"" \
+                        >> $DEV_PROFILE_FILEPATH
+                fi
         fi
     done
 }
