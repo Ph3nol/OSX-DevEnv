@@ -144,9 +144,11 @@ phpHandler() {
     [ $POSTGRESQL -eq 1 ] && PHP_INSTALL_ARGS="$PHP_INSTALL_ARGS --with-pgsql"
 
     brew unlink php$PHP_DEFAULT_VERSION
+    rm ~/.pearrc
 
     for VERSION in $PHP_VERSIONS_TO_INSTALL
     do
+        DOTTED_VERSION=$VERSION
         VERSION=`echo $VERSION | sed -e 's/\.//g'`
         brew install php$VERSION$PHP_INSTALL_ARGS
         brew link php$VERSION
@@ -164,6 +166,13 @@ phpHandler() {
         done
 
         brew unlink php$VERSION
+
+        for PHP_LIB in `find "$HOMEBREW_BASEPATH/Cellar" -name "libphp5.so"`
+        do
+            PHP_LIB_VERSION=`echo $PHP_LIB | awk 'BEGIN{FS="/"} {print $6}'`
+            chmod -R ug+w /usr/local/Cellar/php$VERSION/$PHP_LIB_VERSION/lib/php
+            pear config-set php_ini /usr/local/etc/php/$DOTTED_VERSION/php.ini
+        done
 
         if ! grep -q -m 1 \
             "josegonzalez/php/php$VERSION" $OSX_DEV_PROFILE_PATH; then
