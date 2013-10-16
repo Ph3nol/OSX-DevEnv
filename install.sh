@@ -337,11 +337,12 @@ homebrewFinalization() {
 
 ARGUMENT1=$1
 SCRIPT_GIT_REPOSITORY="https://github.com/Ph3nol/OSX-DevEnv.git"
-HOMEBREW_BASEPATH=$(brew --prefix)
 APACHE_CONF_FILEPATH=`apachectl -V | grep SERVER_CONFIG_FILE \
     | awk 'BEGIN{FS="="} {print $2}' | sed 's/"//g'`
 
 homebrewPreparation
+
+HOMEBREW_BASEPATH=$(brew --prefix)
 
 echo -e "\n\033[33m✔\033[33m Preparing and installing useful packages...\033[0m\n"
 environmentPreparation
