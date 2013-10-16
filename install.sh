@@ -178,6 +178,10 @@ phpHandler() {
     done
 
     brew link php$PHP_DEFAULT_VERSION
+
+    sed -i "" -e "/^export\(.*\)josegonzalez\/php\(.*\)$/d" $OSX_DEV_PROFILE_PATH
+    echo "export PATH=\$(brew --prefix josegonzalez/php/php$PHP_DEFAULT_VERSION)/bin:\$PATH" \
+        >> $OSX_DEV_PROFILE_PATH
 }
 
 phpConfigHandler() {
