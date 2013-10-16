@@ -368,8 +368,8 @@ homebrewFinalization() {
         ;;
     esac
 
-    if ! grep -q -m 1 "source $OSX_DEV_PROFILE_PATH" $SHELL_CONFIG_FILE; then
-            echo -e "\nsource $OSX_DEV_PROFILE_PATH" >> $SHELL_CONFIG_FILE
+    if ! grep -qli $OSX_DEV_PROFILE_PATH ~/.* -d skip --exclude="*history"; then
+        echo -e "\nsource $OSX_DEV_PROFILE_PATH" >> $SHELL_CONFIG_FILE
     fi
 
     source $SHELL_CONFIG_FILE
