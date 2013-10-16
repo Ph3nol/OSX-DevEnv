@@ -298,7 +298,7 @@ phpApacheConfigHandler() {
                 "echo -e '# LOCFL\nInclude /private/etc/apache2/other/*.conf' >> $APACHE_CONF_FILEPATH"
     fi
 
-    [ -f ~/Sites/vhosts/phpinfo.php ] || echo "<?php echo phpinfo; ?>" > ~/Sites/vhosts/phpinfo.php
+    [ -f ~/Sites/vhosts/phpinfo.php ] || echo "<?php echo phpinfo(); ?>" > ~/Sites/vhosts/phpinfo.php
 
     sudo apachectl restart
 }
