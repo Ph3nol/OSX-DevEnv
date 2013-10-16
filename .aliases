@@ -1,0 +1,31 @@
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ......="cd ../../../../.."
+alias x="exit"
+
+alias memcached-flush='echo "flush_all" | nc localhost 11211'
+alias varnish-flush='varnishadm "ban.url .*"'
+
+alias mypubip="curl -s checkip.dyndns.org|sed -e 's/.*Current IP Address: //' -e 's/<.*$//'"
+
+if [ -L ~/Applications/Sublime\ Text\ 2.app ] || [ -f ~/Applications/Sublime\ Text\ 2.app ]; then
+    alias subl="open -a 'Sublime Text 2'"
+elif [ -L ~/Applications/Sublime\ Text\ 3.app ] || [ -f ~/Applications/Sublime\ Text\ 3.app ]; then
+    alias subl="open -a 'Sublime Text 3'"
+fi
+
+reload() {
+case $(echo $SHELL) in
+  "/bin/zsh")
+    source ~/.zshrc
+    ;;
+  "/bin/bash")
+    source ~/.bashrc
+    ;;
+  *)
+    echo "Unknown Shell"
+    ;;
+esac
+}

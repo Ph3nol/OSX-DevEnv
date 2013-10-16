@@ -30,6 +30,7 @@ environmentPreparation() {
 
     OSX_DEV_PATH=~/.osx-dev
     OSX_DEV_PROFILE_PATH=$OSX_DEV_PATH/.profile
+    OSX_DEV_DYNAMIC_PATH=$OSX_DEV_PATH/.dynamic
 
     if [ -d $OSX_DEV_PATH ];
     then
@@ -176,22 +177,22 @@ phpHandler() {
         brew unlink php$VERSION
 
         if ! grep -q -m 1 \
-            "josegonzalez/php/php$VERSION" $OSX_DEV_PROFILE_PATH; then
+            "josegonzalez/php/php$VERSION" $OSX_DEV_DYNAMIC_PATH; then
                 if [ "$VERSION" == "$PHP_DEFAULT_VERSION" ]; then
                     echo "export PATH=\"$(brew --prefix josegonzalez/php/php$VERSION)/bin:\$PATH\"" \
-                        >> $OSX_DEV_PROFILE_PATH
+                        >> $OSX_DEV_DYNAMIC_PATH
                 else
                     echo "# export PATH=\"$(brew --prefix josegonzalez/php/php$VERSION)/bin:\$PATH\"" \
-                        >> $OSX_DEV_PROFILE_PATH
+                        >> $OSX_DEV_DYNAMIC_PATH
                 fi
         fi
     done
 
     brew link php$PHP_DEFAULT_VERSION
 
-    sed -i "" -e "/^export\(.*\)josegonzalez\/php\(.*\)$/d" $OSX_DEV_PROFILE_PATH
+    sed -i "" -e "/^export\(.*\)josegonzalez\/php\(.*\)$/d" $OSX_DEV_DYNAMIC_PATH
     echo "export PATH=\$(brew --prefix josegonzalez/php/php$PHP_DEFAULT_VERSION)/bin:\$PATH" \
-        >> $OSX_DEV_PROFILE_PATH
+        >> $OSX_DEV_DYNAMIC_PATH
 }
 
 phpConfigHandler() {
@@ -275,6 +276,7 @@ rabbitmqHandler() {
 nodeNpmHandler() {
     sudo kill -9 `ps -ef | grep "node\|npm" | grep -v grep | awk '{print $2}'`
     brew install node
+    echo "export NODE_PATH=\""$(which node)"\"" >> $OSX_DEV_DYNAMIC_PATH
 }
 
 meteorHandler() {
@@ -313,6 +315,13 @@ osxPackagesHandler() {
 homebrewFinalization() {
     brew cleanup
 
+    if grep -q -m 1 "export TZ=" $OSX_DEV_DYNAMIC_PATH; then
+        sed -i "" -e "s/^\(export TZ\)=.*$/\1=\"$PHP_DATE_TIMEZONE\"/g" \
+            $OSX_DEV_DYNAMIC_PATH
+    elif [ $PHP_DATE_TIMEZONE ]; then
+        echo -e "export TZ=\"$PHP_DATE_TIMEZONE\"" >> $OSX_DEV_DYNAMIC_PATH
+    fi
+
     case $(echo $SHELL) in
       "/bin/zsh")
         SHELL_CONFIG_FILE=~/.zshrc
@@ -347,6 +356,8 @@ HOMEBREW_BASEPATH=$(brew --prefix)
 
 echo -e "\033[33m\n✔\033[33m Preparing and installing useful packages...\033[0m\n"
 environmentPreparation
+
+homebrewFinalization
 
 echo -e "\033[33m\n✔\033[33m Installing CLI packages...\033[0m\n"
 cliPackagesHandler

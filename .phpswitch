@@ -1,7 +1,7 @@
 APACHE_CONF_FILEPATH=`apachectl -V | grep SERVER_CONFIG_FILE \
     | awk 'BEGIN{FS="="} {print $2}' | sed 's/"//g'`
 OSX_DEV_PATH=~/.osx-dev
-OSX_DEV_PROFILE_PATH=$OSX_DEV_PATH/.profile
+OSX_DEV_DYNAMIC_PATH=$OSX_DEV_PATH/.dynamic
 
 swphp() {
     VERSION=`echo $1 | sed -e 's/\.//g'`
@@ -19,9 +19,9 @@ swphp() {
         BREW_LINK_CMD=$(brew unlink php$ACTUAL_VERSION 2>&1)
 
         echo "  Setting PHP for CLI..."
-        sed -i "" -e "/^export\(.*\)josegonzalez\/php\(.*\)$/d" $OSX_DEV_PROFILE_PATH
+        sed -i "" -e "/^export\(.*\)josegonzalez\/php\(.*\)$/d" $OSX_DEV_DYNAMIC_PATH
         echo "export PATH=\$(brew --prefix josegonzalez/php/php$VERSION)/bin:\$PATH" \
-            >> $OSX_DEV_PROFILE_PATH
+            >> $OSX_DEV_DYNAMIC_PATH
         BREW_LINK_CMD=$(brew link php$VERSION 2>&1)
 
         echo "  Setting PEAR..."
