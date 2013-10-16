@@ -24,6 +24,8 @@ PHP=1
         PHP_MODULES_TO_INSTALL="apc memcached xdebug intl xhprof mcrypt
         imagick posix curl iconv openssl"
     COMPOSER=1
+    PEAR_PACKAGES_TO_INSTALL="PHP_CodeSniffer"
+    PECL_PACKAGES_TO_INSTALL=""
 MYSQL=1
     MYSQL_AT_START=1
     PHPMYADMIN=1
@@ -227,6 +229,11 @@ phpHandler() {
             brew install php$VERSION-$MODULE
         done
 
+        for PECL_PACKAGE in $PECL_PACKAGES_TO_INSTALL
+        do
+            pecl install $PECL_PACKAGE
+        done
+
         brew unlink php$VERSION
 
         if ! grep -q -m 1 \
@@ -295,6 +302,13 @@ phpApacheConfigHandler() {
 
 phpComposerHandler() {
     brew install composer
+}
+
+phpPearHandler() {
+    for PEAR_PACKAGE in $PEAR_PACKAGES_TO_INSTALL
+    do
+        pear install $PEAR_PACKAGE
+    done
 }
 
 elasticSearchHandler() {
@@ -448,6 +462,8 @@ if [ $PHP -eq 1 ]; then
         echo -e "\n\033[33m✔\033[33m Adding PHP Composer...\033[0m\n"
         phpComposerHandler
     fi
+
+    phpPearHandler
 fi
 
 if [ $ELASTICSEARCH -eq 1 ]; then
