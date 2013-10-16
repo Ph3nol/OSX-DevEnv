@@ -1,80 +1,6 @@
 #!/usr/bin/env bash
 
-### YOUR CONFIRUATION ########################################################################
-
-CLI_PACKAGES="bash wget curl ack grep tree lynx imagemagick"
-
-ZSH=1
-GIT=1
-    GIT_AUTHOR_NAME="Cédric Dugat"
-    GIT_AUTHOR_EMAIL="cedric@dugat.me"
-
-APACHE_CONFIG=1 # No installation with Brew, just configuration (parameters and vhosts)
-PHP=1
-    PHP_VERSIONS_TO_INSTALL="5.4 5.5"
-    PHP_DEFAULT_VERSION="5.4"
-    PHP_CUSTOMIZE_PHPINI=1
-        PHP_DATE_TIMEZONE="Europe\/Paris"
-        PHP_MEMORY_LIMIT="512M"
-        PHP_POST_MAX_SIZE="64M"
-        PHP_UPLOAD_MAX_FILESIZE="64M"
-        PHP_MAX_EXECUTION_TIME="300"
-        PHP_MAX_INPUT_TIME="600"
-        PHP_XDEBUG_MAX_NESTING_LEVEL="500"
-        PHP_MODULES_TO_INSTALL="apc memcached xdebug intl xhprof mcrypt
-        imagick posix curl iconv openssl"
-    COMPOSER=1
-    PEAR_PACKAGES_TO_INSTALL="PHP_CodeSniffer"
-    PECL_PACKAGES_TO_INSTALL=""
-MYSQL=1
-    MYSQL_AT_START=1
-    PHPMYADMIN=1
-POSTGRESQL=0
-MONGODB=1
-    MONGODB_AT_START=1
-REDIS=1
-    REDIS_AT_START=1
-MEMCACHED=1
-ELASTICSEARCH=1
-    ELASTICSEARCH_AT_START=1
-RABBITMQ=1
-    RABBITMQ_AT_START=1
-NODE_NPM=1
-METEOR=1
-
-GEMS_TO_INSTALL="capistrano capifony mailcatcher compass"
-NPM_PACKAGES_TO_INSTALL="bower less sails yo generator-webapp generator-angular
-    meteor meteorite generator-meteor"
-
-OSX_PACKAGES=1
-    OSX_PACKAGES_TO_INSTALL="dropbox google-chrome google-chrome-canary google-drive iterm2
-    sublime-text the-unarchiver virtualbox vagrant gas-mask vlc adium dashlane growlnotify
-    app-cleaner ccleaner clean-my-mac cloudapp command-q evernote filezilla mou mysql-workbench
-    robomongo sequel-pro skype spotify team-viewer u-torrent spectacle xtra-finder"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-##############################################################################################
-##############################################################################################
-##############################################################################################
-##                                                                                          ##
-##                                  DO NOT TOUCH FROM HERE!                                 ##
-##                                                                                          ##
-##############################################################################################
-##############################################################################################
-##############################################################################################
+source ~/.osx-dev.config.install
 
 ### LOGICAL FUNCTIONS ########################################################################
 
@@ -388,6 +314,8 @@ homebrewFinalization() {
     if ! grep -qli $OSX_DEV_PROFILE_PATH ~/.* -d skip --exclude="*history"; then
         echo -e "\nsource $OSX_DEV_PROFILE_PATH" >> $SHELL_CONFIG_FILE
     fi
+
+    rm ~/.osx-dev.config.install
 
     source $SHELL_CONFIG_FILE
 }

@@ -7,7 +7,14 @@ But of course, feel free to test it and contribute! :)
 
 ## Installation
 
-One line installation:
+First, you must download config example and edit it for your needs:
+
+```
+curl -ss https://raw.github.com/Ph3nol/OSX-DevEnv/master/.config.install -o ~/.osx-dev.config.install
+vim ~/.osx-dev.config.install
+```
+
+Save your updates and run the script:
 
 ```
 curl -sS https://raw.github.com/Ph3nol/OSX-DevEnv/master/install.sh | sh
