@@ -5,8 +5,8 @@ alias .....="cd ../../../.."
 alias ......="cd ../../../../.."
 alias x="exit"
 
-alias memcached-flush='echo "flush_all" | nc localhost 11211'
-alias varnish-flush='varnishadm "ban.url .*"'
+alias mcflush='echo "flush_all" | nc localhost 11211'
+alias vflush='varnishadm "ban.url .*"'
 
 alias mypubip="curl -s checkip.dyndns.org|sed -e 's/.*Current IP Address: //' -e 's/<.*$//'"
 

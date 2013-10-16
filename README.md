@@ -31,6 +31,19 @@ swphp 5.4
 swphp 5.5
 ```
 
+## Aliases
+
+Some aliases have been added to bring fun into your dev life! ;)
+
+* `x` to exit
+* `..`, `..`, `..`, (etc.) to browse back your folders
+* `mcflush` to purge your local Memcached data (11211 default port)
+* `vflush` to flush local Varnish cache (from global URL ban)
+* `phpinfo` to open fast phpinfo() into your default browser
+* `pma` to open fast PHPMyAdmin instance into your default browser
+* `subl` to easy and fast access to Sublime Text 2 (if installed)
+* `reload` to reload your shell
+
 ## Included tools/features
 
 * CLI packages
