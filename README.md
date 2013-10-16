@@ -37,7 +37,7 @@ swphp 5.5
 * ZSH
 * Git configuration
 * Native OSX Apache configuration
-* PHP multiversions (+ PEAR/Pecl packages and Composer)
+* PHP multiversions (+ PEAR/Pecl packages, PHPMyAdmin and Composer)
 * MySQL
 * PostgreSQL
 * MongoDB
@@ -50,3 +50,4 @@ swphp 5.5
 * Gem packages easy-install
 * NPM packages easy-install
 * OSX packages easy-install (through Brew Cask)
+* Some dotfiles (aliases, pathes and others!)
