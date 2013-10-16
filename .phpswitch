@@ -25,7 +25,7 @@ swphp() {
         BREW_LINK_CMD=$(brew link php$VERSION 2>&1)
 
         echo "  Setting PEAR..."
-        pear config-set php_ini /usr/local/etc/php/$1/php.ini
+        PEAR_CMD=$(pear config-set php_ini /usr/local/etc/php/$1/php.ini 2>&1)
 
         echo "  Setting PHP for Apache..."
         sudo sed -i "" -e "/^LoadModule php5_module/s/LoadModule/# LoadModule/" \

@@ -11,16 +11,16 @@ homebrewPreparation() {
         READY_TO_BREW=$(brew doctor 2>&1)
 
         if [ "$READY_TO_BREW" != "Your system is ready to brew." ]; then
-            echo -e "\n\033[31m✘ Brew Doctor failed. Fix 'brew doctor' errors first."
+            echo -e "\033[31m\n✘ Brew Doctor failed. Fix 'brew doctor' errors first."
             exit 0
         fi
     fi
 
-    echo -e "\n\033[33m✔\033[33m Updating and upgrading Brew...\033[0m\n"
+    echo -e "\033[33m\n✔\033[33m Updating and upgrading Brew...\033[0m\n"
     brew update
     brew upgrade
 
-    echo -e "\n\033[33m✔\033[33m Tapping Brew formulaes...\033[0m\n"
+    echo -e "\033[33m\n✔\033[33m Tapping Brew formulaes...\033[0m\n"
     brew tap homebrew/dupes
     brew tap josegonzalez/homebrew-php
 }
@@ -160,19 +160,20 @@ phpHandler() {
             brew install php$VERSION-$MODULE
         done
 
+        for PHP_LIB in `find "$HOMEBREW_BASEPATH/Cellar" -name "libphp5.so"`
+        do
+            PHP_LIB_VERSION=`echo $PHP_LIB | awk 'BEGIN{FS="/"} {print $6}'`
+            chmod -R ug+w /usr/local/Cellar/php$VERSION/$PHP_LIB_VERSION/lib/php
+            /usr/local/opt/php$VERSION/bin/pear \
+                config-set php_ini /usr/local/etc/php/$DOTTED_VERSION/php.ini
+        done
+
         for PECL_PACKAGE in $PECL_PACKAGES_TO_INSTALL
         do
             pecl install $PECL_PACKAGE
         done
 
         brew unlink php$VERSION
-
-        for PHP_LIB in `find "$HOMEBREW_BASEPATH/Cellar" -name "libphp5.so"`
-        do
-            PHP_LIB_VERSION=`echo $PHP_LIB | awk 'BEGIN{FS="/"} {print $6}'`
-            chmod -R ug+w /usr/local/Cellar/php$VERSION/$PHP_LIB_VERSION/lib/php
-            pear config-set php_ini /usr/local/etc/php/$DOTTED_VERSION/php.ini
-        done
 
         if ! grep -q -m 1 \
             "josegonzalez/php/php$VERSION" $OSX_DEV_PROFILE_PATH; then
@@ -330,7 +331,7 @@ homebrewFinalization() {
 
     rm ~/.osx-dev.config.install
 
-    source $SHELL_CONFIG_FILE
+    exec $(echo $SHELL)
 }
 
 ### PROCESS ##################################################################################
@@ -344,103 +345,103 @@ homebrewPreparation
 
 HOMEBREW_BASEPATH=$(brew --prefix)
 
-echo -e "\n\033[33m✔\033[33m Preparing and installing useful packages...\033[0m\n"
+echo -e "\033[33m\n✔\033[33m Preparing and installing useful packages...\033[0m\n"
 environmentPreparation
 
-echo -e "\n\033[33m✔\033[33m Installing CLI packages...\033[0m\n"
+echo -e "\033[33m\n✔\033[33m Installing CLI packages...\033[0m\n"
 cliPackagesHandler
 
 if [ $GIT -eq 1 ]; then
-    echo -e "\n\033[33m✔\033[33m Installing and configuring Git...\033[0m\n"
+    echo -e "\033[33m\n✔\033[33m Installing and configuring Git...\033[0m\n"
     gitHandler
 fi
 
 if [ $ZSH -eq 1 ]; then
-    echo -e "\n\033[33m✔\033[33m Installing and configuring ZSH...\033[0m\n"
+    echo -e "\033[33m\n✔\033[33m Installing and configuring ZSH...\033[0m\n"
     zshHandler
 fi
 
 if [ $APACHE_CONFIG -eq 1 ]; then
-    echo -e "\n\033[33m✔\033[33m Installing and configuring Apache...\033[0m\n"
+    echo -e "\033[33m\n✔\033[33m Installing and configuring Apache...\033[0m\n"
     apacheConfigHandler
 fi
 
 if [ $MYSQL -eq 1 ]; then
-    echo -e "\n\033[33m✔\033[33m Installing and configuring MySQL...\033[0m\n"
+    echo -e "\033[33m\n✔\033[33m Installing and configuring MySQL...\033[0m\n"
     mysqlHandler
 fi
 
 if [ $POSTGRESQL -eq 1 ]; then
-    echo -e "\n\033[33m✔\033[33m Installing and configuring PostgreSQL...\033[0m\n"
+    echo -e "\033[33m\n✔\033[33m Installing and configuring PostgreSQL...\033[0m\n"
     postgreSqlHandler
 fi
 
 if [ $MONGODB -eq 1 ]; then
-    echo -e "\n\033[33m✔\033[33m Installing and configuring MongoDB...\033[0m\n"
+    echo -e "\033[33m\n✔\033[33m Installing and configuring MongoDB...\033[0m\n"
     mongodbHandler
 fi
 
 if [ $REDIS -eq 1 ]; then
-    echo -e "\n\033[33m✔\033[33m Installing and configuring Redis...\033[0m\n"
+    echo -e "\033[33m\n✔\033[33m Installing and configuring Redis...\033[0m\n"
     redisHandler
 fi
 
 if [ $MEMCACHED -eq 1 ]; then
-    echo -e "\n\033[33m✔\033[33m Installing Memcached dependencies...\033[0m\n"
+    echo -e "\033[33m\n✔\033[33m Installing Memcached dependencies...\033[0m\n"
     memcachedHandler
 fi
 
 if [ $PHP -eq 1 ]; then
-    echo -e "\n\033[33m✔\033[33m Installing PHP...\033[0m\n"
+    echo -e "\033[33m\n✔\033[33m Installing PHP...\033[0m\n"
     phpHandler
 
     if [ $PHP_CUSTOMIZE_PHPINI -eq 1 ]; then
-        echo -e "\n\033[33m✔\033[33m Configuring PHP...\033[0m\n"
+        echo -e "\033[33m\n✔\033[33m Configuring PHP...\033[0m\n"
         phpConfigHandler
     fi
 
     if [ $APACHE_CONFIG -eq 1 ]; then
-        echo -e "\n\033[33m✔\033[33m Configuring Apache for PHP...\033[0m\n"
+        echo -e "\033[33m\n✔\033[33m Configuring Apache for PHP...\033[0m\n"
         phpApacheConfigHandler
     fi
 
     if [ $COMPOSER -eq 1 ]; then
-        echo -e "\n\033[33m✔\033[33m Adding PHP Composer...\033[0m\n"
+        echo -e "\033[33m\n✔\033[33m Adding PHP Composer...\033[0m\n"
         phpComposerHandler
     fi
 
-    echo -e "\n\033[33m✔\033[33m Installing PEAR packages...\033[0m\n"
+    echo -e "\033[33m\n✔\033[33m Installing PEAR packages...\033[0m\n"
     phpPearHandler
 fi
 
 if [ $ELASTICSEARCH -eq 1 ]; then
-    echo -e "\n\033[33m✔\033[33m Installing and configuring ElasticSearch...\033[0m\n"
+    echo -e "\033[33m\n✔\033[33m Installing and configuring ElasticSearch...\033[0m\n"
     elasticSearchHandler
 fi
 
 if [ $RABBITMQ -eq 1 ]; then
-    echo -e "\n\033[33m✔\033[33m Installing and configuring RabbitMQ...\033[0m\n"
+    echo -e "\033[33m\n✔\033[33m Installing and configuring RabbitMQ...\033[0m\n"
     rabbitmqHandler
 fi
 
 if [ $NODE_NPM -eq 1 ]; then
-    echo -e "\n\033[33m✔\033[33m Installing and configuring Node and NPM...\033[0m\n"
+    echo -e "\033[33m\n✔\033[33m Installing and configuring Node and NPM...\033[0m\n"
     nodeNpmHandler
 fi
 
 if [ $METEOR -eq 1 ]; then
-    echo -e "\n\033[33m✔\033[33m Installing and configuring Meteor(ite)...\033[0m\n"
+    echo -e "\033[33m\n✔\033[33m Installing and configuring Meteor(ite)...\033[0m\n"
     meteorHandler
 fi
 
-echo -e "\n\033[33m✔\033[33m Installing NPM packages...\033[0m\n"
+echo -e "\033[33m\n✔\033[33m Installing NPM packages...\033[0m\n"
 npmPackagesHandler
 
-echo -e "\n\033[33m✔\033[33m Installing GEM packages...\033[0m\n"
+echo -e "\033[33m\n✔\033[33m Installing GEM packages...\033[0m\n"
 gemPackagesHandler
 
 if [ $OSX_PACKAGES -eq 1 ]; then
-    echo -e "\n\033[33m✔\033[33m Installing OSX packages, via Cask...\033[0m\n"
+    echo -e "\033[33m\n✔\033[33m Installing OSX packages, via Cask...\033[0m\n"
     osxPackagesHandler
 fi
 
