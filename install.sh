@@ -253,6 +253,21 @@ phpComposerHandler() {
     brew install composer
 }
 
+phpMyAdminHandler() {
+    brew install phpmyadmin
+
+    if [ ! -f ~/Sites/apache/phpmyadmin.conf ]; then
+        cp $OSX_DEV_PATH/resources/apache/phpmyadmin.conf \
+            ~/Sites/apache/phpmyadmin.conf
+    fi
+
+    sudo apachectl restart
+
+    cp /usr/local/share/phpmyadmin/config.sample.inc.php /usr/local/share/phpmyadmin/config.inc.php
+    sed -i '' -e "s/^\(\$cfg\['Servers'\]\[\$i\]\['AllowNoPassword'\]\) = .*$/\1 = true;/g" \
+        /usr/local/share/phpmyadmin/config.inc.php
+}
+
 phpPearHandler() {
     for PEAR_PACKAGE in $PEAR_PACKAGES_TO_INSTALL
     do
@@ -415,6 +430,11 @@ if [ $PHP -eq 1 ]; then
     if [ $APACHE_CONFIG -eq 1 ]; then
         echo -e "\033[33m\n✔\033[33m Configuring Apache for PHP...\033[0m\n"
         phpApacheConfigHandler
+    fi
+
+    if [ $APACHE_CONFIG -eq 1 ] && [ $MYSQL -eq 1 ] && [ $PHPMYADMIN -eq 1 ]; then
+        echo -e "\033[33m\n✔\033[33m Installing PHPMyAdmin...\033[0m\n"
+        phpMyAdminHandler
     fi
 
     if [ $COMPOSER -eq 1 ]; then
