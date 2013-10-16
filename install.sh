@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 
-source ~/.osx-dev.config.install
+if [ ! -f ~/.osx-dev.config.install ]; then
+    echo -e "\033[31m\n✘ You must create ~/.osx-dev.config.install file.\033[0m\n"
+    exit 0
+else
+    source ~/.osx-dev.config.install
+fi
 
 ### LOGICAL FUNCTIONS ########################################################################
 
@@ -11,7 +16,7 @@ homebrewPreparation() {
         READY_TO_BREW=$(brew doctor 2>&1)
 
         if [ "$READY_TO_BREW" != "Your system is ready to brew." ]; then
-            echo -e "\033[31m\n✘ Brew Doctor failed. Fix 'brew doctor' errors first."
+            echo -e "\033[31m\n✘ Brew Doctor failed. Fix 'brew doctor' errors first.\033[0m\n"
             exit 0
         fi
     fi
@@ -338,8 +343,6 @@ homebrewFinalization() {
         echo -e "\nsource $OSX_DEV_PROFILE_PATH" >> $SHELL_CONFIG_FILE
     fi
 
-    rm ~/.osx-dev.config.install
-
     exec $(echo $SHELL)
 }
 
@@ -356,8 +359,6 @@ HOMEBREW_BASEPATH=$(brew --prefix)
 
 echo -e "\033[33m\n✔\033[33m Preparing and installing useful packages...\033[0m\n"
 environmentPreparation
-
-homebrewFinalization
 
 echo -e "\033[33m\n✔\033[33m Installing CLI packages...\033[0m\n"
 cliPackagesHandler
