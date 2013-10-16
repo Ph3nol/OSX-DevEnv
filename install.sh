@@ -80,11 +80,14 @@ OSX_PACKAGES=1
 
 homebrewPreparation() {
     ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go)"
-    READY_TO_BREW=$(brew doctor 2>&1)
 
-    if [ "$READY_TO_BREW" != "Your system is ready to brew." ]; then
-        echo -e "\n\033[31m✘ Brew Doctor failed. Fix 'brew doctor' errors first."
-        exit 0
+    if [ "$ARGUMENT1" != "--reinstall" ]; then
+        READY_TO_BREW=$(brew doctor 2>&1)
+
+        if [ "$READY_TO_BREW" != "Your system is ready to brew." ]; then
+            echo -e "\n\033[31m✘ Brew Doctor failed. Fix 'brew doctor' errors first."
+            exit 0
+        fi
     fi
 
     echo -e "\n\033[33m✔\033[33m Updating and upgrading Brew...\033[0m\n"
@@ -391,6 +394,7 @@ homebrewFinalization() {
 
 ### PROCESS ##################################################################################
 
+ARGUMENT1=$1
 SCRIPT_GIT_REPOSITORY="https://github.com/Ph3nol/OSX-DevEnv.git"
 HOMEBREW_BASEPATH=$(brew --prefix)
 APACHE_CONF_FILEPATH=`apachectl -V | grep SERVER_CONFIG_FILE \
