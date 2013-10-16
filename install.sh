@@ -259,11 +259,15 @@ phpMyAdminHandler() {
     if [ ! -f ~/Sites/apache/phpmyadmin.conf ]; then
         cp $OSX_DEV_PATH/resources/apache/phpmyadmin.conf \
             ~/Sites/apache/phpmyadmin.conf
+
+        sudo apachectl restart
     fi
 
-    sudo apachectl restart
+    if [ ! -f /usr/local/share/phpmyadmin/config.inc.php ]; then
+        cp /usr/local/share/phpmyadmin/config.sample.inc.php \
+            /usr/local/share/phpmyadmin/config.inc.php
+    fi
 
-    cp /usr/local/share/phpmyadmin/config.sample.inc.php /usr/local/share/phpmyadmin/config.inc.php
     sed -i '' -e "s/^\(\$cfg\['Servers'\]\[\$i\]\['AllowNoPassword'\]\) = .*$/\1 = true;/g" \
         /usr/local/share/phpmyadmin/config.inc.php
 }
