@@ -10,7 +10,8 @@ But of course, feel free to test it and contribute! :)
 First, you must download config example and edit it for your needs:
 
 ```
-curl -ss https://raw.github.com/Ph3nol/OSX-DevEnv/master/.config.install -o ~/.osx-dev.config.install
+curl -ss https://raw.github.com/Ph3nol/OSX-DevEnv/master/.config.install \
+    -o ~/.osx-dev.config.install
 vim ~/.osx-dev.config.install
 ```
 
