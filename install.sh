@@ -395,6 +395,7 @@ if [ $PHP -eq 1 ]; then
         phpComposerHandler
     fi
 
+    echo -e "\n\033[33m✔\033[33m Installing PEAR packages...\033[0m\n"
     phpPearHandler
 fi
 
