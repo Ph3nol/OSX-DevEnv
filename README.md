@@ -37,7 +37,7 @@ swphp 5.5
 * ZSH
 * Git configuration
 * Native OSX Apache configuration
-* PHP multiversions (+ Composer)
+* PHP multiversions (+ PEAR/Pecl packages and Composer)
 * MySQL
 * PostgreSQL
 * MongoDB
