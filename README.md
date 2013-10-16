@@ -13,7 +13,7 @@ One line installation:
 curl -sS https://raw.github.com/Ph3nol/OSX-DevEnv/master/install.sh | sh
 ```
 
-## Multiple version of PHP
+## Multiple versions of PHP
 
 You can easily switch CLI/Apache PHP version by using this alias:
 
