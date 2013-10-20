@@ -5,10 +5,57 @@ alias .....="cd ../../../.."
 alias ......="cd ../../../../.."
 alias x="exit"
 
+alias ls='ls -aFhlG'
+alias ll='ls -l'
+alias mkdir='mkdir -pv'
+alias df='df -H'
+alias du='du -ch'
+alias mount='mount | column -t'
+
+alias f='open -a Finder '
+alias sites='cd ~/Sites'
+alias docs='cd ~/Documents'
+alias dl='cd ~/Downloads'
+alias safari="open -a safari"
+alias firefox="open -a firefox"
+alias chrome="open -a google\ chrome"
+alias chromium="open -a chromium"
+
+alias h='history'
+alias j='jobs -l'
+
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+
+alias sha1='openssl sha1'
+
+alias path='echo -e ${PATH//:/\\n}'
+alias now='date +"%T'
+alias nowtime=now
+alias nowdate='date +"%d-%m-%Y"'
+
+alias aprestart='sudo apachectl restart'
+alias apreload='sudo apachectl -k graceful'
+alias aptest='sudo apachectl -t && apachectl -t -D DUMP_VHOSTS'
 alias mcflush='echo "flush_all" | nc localhost 11211'
 alias vflush='varnishadm "ban.url .*"'
 
+alias mysqlstart='launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.mysqldb.plist'
+alias mysqlstop='launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.mysqldb.plist'
+alias mongostart='launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.mongodb.plist'
+alias mongostop='launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.mongodb.plist'
+alias redisstart='launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.redisdb.plist'
+alias redisstop='launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.redisdb.plist'
+alias rabbitmqstart='launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.rabbitmqdb.plist'
+alias rabbitmqstop='launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.rabbitmqdb.plist'
+
 alias mypubip="curl -s checkip.dyndns.org|sed -e 's/.*Current IP Address: //' -e 's/<.*$//'"
+alias ping='ping -c 5'
+alias wget='wget -c'
+
+alias battery='ioreg -w0 -l | grep Capacity | cut -d " " -f 17-50'
+alias pubkey="cat ~/.ssh/id_rsa.pub | pbcopy | echo '=> SSH public key copied to pasteboard.'"
 
 alias phpinfo="open http://localhost/phpinfo.php"
 alias pma="open http://localhost/phpmyadmin"
