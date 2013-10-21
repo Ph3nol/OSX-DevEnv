@@ -118,6 +118,11 @@ mysqlHandler() {
 postgreSqlHandler() {
     sudo kill -9 `ps -ef | grep "postgre" | grep -v grep | awk '{print $2}'`
     brew install postgresql --without-ossp-uuid
+    initdb /usr/local/var/postgres -E utf8
+    if [ $POSTGRESQL_AT_START -eq 1 ]; then
+        ln -sfv $HOMEBREW_BASEPATH/opt/postgresql/*.plist ~/Library/LaunchAgents
+        launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist
+    fi
 }
 
 mongodbHandler() {
