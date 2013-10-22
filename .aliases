@@ -44,8 +44,8 @@ alias rmqflush='rabbitmqctl stop_app && rabbitmqctl reset && rabbitmqctl start_a
 
 alias mysqlstart='launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.mysqldb.plist'
 alias mysqlstop='launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.mysqldb.plist'
-alias postgresqlstart='launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.postgresqldb.plist'
-alias postgresqlstop='launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.postgresqldb.plist'
+alias postgresqlstart='launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist'
+alias postgresqlstop='launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist'
 alias mongostart='launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.mongodb.plist'
 alias mongostop='launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.mongodb.plist'
 alias redisstart='launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.redisdb.plist'
