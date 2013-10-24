@@ -41,6 +41,7 @@ alias aptest='sudo apachectl -t && apachectl -t -D DUMP_VHOSTS'
 alias mcflush='echo "flush_all" | nc localhost 11211'
 alias vflush='varnishadm "ban.url .*"'
 alias rmqflush='rabbitmqctl stop_app && rabbitmqctl reset && rabbitmqctl start_app'
+alias redisflush='redis-cli flushall'
 
 alias mysqlstart='launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist'
 alias mysqlstop='launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist'
