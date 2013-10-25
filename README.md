@@ -33,7 +33,7 @@ swphp 5.5
 
 ## Aliases
 
-Some [aliases](blob/master/.aliases) have been added to bring fun into your dev life! ;)
+Some [aliases](.aliases) have been added to bring fun into your dev life! ;)
 
 ## Included tools/features
 
