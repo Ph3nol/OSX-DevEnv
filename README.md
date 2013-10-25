@@ -55,3 +55,7 @@ Some [aliases](blob/master/.aliases) have been added to bring fun into your dev 
 * NPM packages easy-install
 * OSX packages easy-install (through Brew Cask)
 * Some dotfiles (aliases, pathes and others!)
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/Ph3nol/osx-devenv/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
