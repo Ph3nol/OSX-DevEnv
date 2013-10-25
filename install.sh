@@ -5,6 +5,7 @@ if [ ! -f ~/.osx-dev.config.install ]; then
     exit 0
 else
     source ~/.osx-dev.config.install
+    sudo -v
 fi
 
 ### LOGICAL FUNCTIONS ########################################################################
