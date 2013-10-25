@@ -7,6 +7,10 @@ if [ -f ~/.nvm/nvm.sh ]; then
     . ~/.nvm/nvm.sh
 fi
 
+if [ -f /usr/local/bin/node ] || [ -f ~/.nvm/nvm.sh ]; then
+    export NODE_PATH=$(which node)
+fi
+
 if [ -f /opt/homebrew-cask/Caskroom/google-chrome/stable-channel/Google\ Chrome.app ]; then
     export CHROME_BIN="/opt/homebrew-cask/Caskroom/google-chrome/stable-channel/Google Chrome.app/Contents/MacOS/Google Chrome"
 elif [ -f ~/Applications/Google\ Chrome.app ]; then

@@ -313,10 +313,8 @@ nodeNpmHandler() {
         nvm install latest
         nvm alias default $(nvm ls | grep current | awk '{ print $2 }')
     fi
-
     if [ $NODE_NPM -eq 1 ] && [ $NODE_WITH_NVM -eq 0 ]; then
         brew install node
-        echo "export NODE_PATH=\""$(which node)"\"" >> $OSX_DEV_DYNAMIC_PATH
     fi
 }
 
