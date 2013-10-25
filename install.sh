@@ -308,8 +308,16 @@ rabbitmqHandler() {
 
 nodeNpmHandler() {
     sudo kill -9 `ps -ef | grep "node\|npm" | grep -v grep | awk '{print $2}'`
-    brew install node
-    echo "export NODE_PATH=\""$(which node)"\"" >> $OSX_DEV_DYNAMIC_PATH
+    if [ $NODE_NPM -eq 1 ] && [ $NODE_WITH_NVM -eq 1 ]; then
+        git clone git://github.com/creationix/nvm.git ~/.nvm
+        nvm install latest
+        nvm alias default $(nvm ls | grep current | awk '{ print $2 }')
+    fi
+
+    if [ $NODE_NPM -eq 1 ] && [ $NODE_WITH_NVM -eq 0 ]; then
+        brew install node
+        echo "export NODE_PATH=\""$(which node)"\"" >> $OSX_DEV_DYNAMIC_PATH
+    fi
 }
 
 meteorHandler() {
