@@ -9,6 +9,7 @@ fi
 
 if [ -f /usr/local/bin/node ] || [ -f ~/.nvm/nvm.sh ]; then
     export NODE_PATH=$(which node)
+    export NODE_PATH=$(which node | sed "s/bin\/node/lib\/node_modules/g"):$NODE_PATH
 fi
 
 if [ -f /opt/homebrew-cask/Caskroom/google-chrome/stable-channel/Google\ Chrome.app ]; then
