@@ -23,6 +23,7 @@ swphp() {
         echo "export PATH=\$(brew --prefix josegonzalez/php/php$VERSION)/bin:\$PATH" \
             >> $OSX_DEV_DYNAMIC_PATH
         BREW_LINK_CMD=$(brew link php$VERSION 2>&1)
+        source $OSX_DEV_DYNAMIC_PATH
 
         echo "  Setting PEAR..."
         PEAR_CMD=$(pear config-set php_ini /usr/local/etc/php/$1/php.ini 2>&1)
