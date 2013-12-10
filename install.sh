@@ -350,6 +350,7 @@ osxPackagesHandler() {
     brew cask install alfred
     brew cask linkapps
     brew cask alfred link
+    qlmanage -r
 }
 
 homebrewFinalization() {
