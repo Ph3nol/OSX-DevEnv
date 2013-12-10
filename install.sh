@@ -11,7 +11,7 @@ fi
 ### LOGICAL FUNCTIONS ########################################################################
 
 homebrewPreparation() {
-    ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go)"
+    ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go/install)"
 
     if [ "$ARGUMENT1" != "--reinstall" ]; then
         READY_TO_BREW=$(brew doctor 2>&1)

@@ -6,7 +6,7 @@ alias ......="cd ../../../../.."
 alias x="exit"
 
 alias ls='ls -aFhlG'
-alias ls='ls --color'
+alias ls='ls --color=auto'
 alias ll='ls -l'
 alias mkdir='mkdir -pv'
 alias df='df -H'
