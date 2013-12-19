@@ -283,9 +283,18 @@ phpMyAdminHandler() {
 }
 
 phpPearHandler() {
-    for PEAR_PACKAGE in $PEAR_PACKAGES_TO_INSTALL
+    for PHP_LIB in `find "$HOMEBREW_BASEPATH/Cellar" -name "libphp5.so"`
     do
-        pear install $PEAR_PACKAGE
+        PHP_LIB_VERSION_C=`echo $PHP_LIB | awk 'BEGIN{FS="/"} {print $6}' \
+            | awk 'BEGIN{FS="."} {print $1"."$2"."$3}'`
+        PHP_LIB_VERSION_S=`echo $PHP_LIB | awk 'BEGIN{FS="/"} {print $6}' \
+            | awk 'BEGIN{FS="."} {print $1$2}'`
+
+        for PEAR_PACKAGE in $PEAR_PACKAGES_TO_INSTALL
+        do
+            $HOMEBREW_BASEPATH/Cellar/php$PHP_LIB_VERSION_S/$PHP_LIB_VERSION_C/bin/pear \
+                install $PEAR_PACKAGE
+        done
     done
 }
 
