@@ -69,8 +69,8 @@ alias pma="open http://localhost/phpmyadmin"
 
 if [ -L ~/Applications/Sublime\ Text\ 2.app ] || [ -f ~/Applications/Sublime\ Text\ 2.app ]; then
     alias subl="open -a 'Sublime Text 2'"
-elif [ -L ~/Applications/Sublime\ Text\ 3.app ] || [ -f ~/Applications/Sublime\ Text\ 3.app ]; then
-    alias subl="open -a 'Sublime Text 3'"
+elif [ -L ~/Applications/Sublime\ Text.app ] || [ -f ~/Applications/Sublime\ Text.app ]; then
+    alias subl="open -a 'Sublime Text'"
 fi
 
 reload() {
