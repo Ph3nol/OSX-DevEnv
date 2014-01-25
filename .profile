@@ -7,7 +7,7 @@ if [ -f ~/.nvm/nvm.sh ]; then
     . ~/.nvm/nvm.sh
 fi
 
-if [ -f /usr/local/bin/node ] || [ -f ~/.nvm/nvm.sh ]; then
+if [ -f /usr/local/bin/node ]; then
     export NODE_PATH=$(which node)
     export NODE_PATH=$(which node | sed "s/bin\/node/lib\/node_modules/g"):$NODE_PATH
 fi
